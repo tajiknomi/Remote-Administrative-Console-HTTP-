@@ -190,28 +190,29 @@ unsigned int ConnectionManager::NumOfClients() const{
 
 int ConnectionManager::startServer(const quint16 &port){
 
-    QString addr {"0.0.0.0"};
+    const QString ServerListeningIP = "0.0.0.0";
+    QString dataServerIP;
 
     if(!configManager.getDataServerIP().isEmpty()){   // if config file is available
         QStringList dnsList { configManager.getDnsList() };
-        addr = ConfigurationManager::GetServerIP(dnsList); // Extract the C2 server IP
+        dataServerIP = ConfigurationManager::GetServerIP(dnsList); // Extract the C2 server IP
     }
 
-    else { addr = configManager.getDataServerIP(); } // For default config, data server is the same as C2 server
+    else { dataServerIP = configManager.getDataServerIP(); } // For default config, data server is the same as C2 server
 
-    if(addr.isNull()){
+    if(dataServerIP.isNull()){
         QString promptMsg = "Server is unable to access the internet at this time, try again";
         emit displayPromptQML("Server", promptMsg);
         return -1;
     }
-    else if (!server.listen(QHostAddress{addr}, port) || !server.isListening()){
-        QString promptMsg =  "Cannot connect on" + addr + ":" + QString::number(port) + "\n";
+    else if (!server.listen(QHostAddress{ ServerListeningIP }, port) || !server.isListening()){
+        QString promptMsg =  "Cannot connect on" + ServerListeningIP + ":" + QString::number(port) + "\n";
         promptMsg += "The listening port maybe in use by some other service";
         emit displayPromptQML("Server", promptMsg);
         return -1;
     }
 
-    qDebug() << "Listening on " << addr + ":" + QString::number(port);
+    qDebug() << "Listening on " << ServerListeningIP + ":" + QString::number(port);
     emit sendDataServerIP(configManager.getDataServerIP());
     return 0;
 }
