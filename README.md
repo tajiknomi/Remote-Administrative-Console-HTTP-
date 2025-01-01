@@ -51,16 +51,16 @@ command-line option is given below:-
 
 #### 1) qmake
 ```
-cd Remote_Administrative_Console
-qmake server.pro
-mingw32-make.exe
+$ cd Remote_Administrative_Console
+$ qmake server.pro
+$ mingw32-make.exe
 ```
 #### 2) cmake
 ```
-cd Remote_Administrative_Console
-mkdir build && cd build;
-cmake ../
-cmake --build .
+$ cd Remote_Administrative_Console
+$ mkdir build && cd build;
+$ cmake ../
+$ cmake --build .
 ```
 
 **Technology Stack:**
